@@ -1,0 +1,1 @@
+/test *(rw,no_root_squash)
