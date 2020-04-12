@@ -1,4 +1,4 @@
-# hackon-project
+# Easy Files
 
 We have chosen the track "Remote Working".
 
