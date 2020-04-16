@@ -1,0 +1,10 @@
+- hosts: all
+   - name: Make sure nfs client 10.0.0.1 is configured for export. Allow root access
+    infini_export_client:
+      client: 192.168.43.8
+      access_mode: RW
+      no_root_squash: yes
+      export: /data
+      user: admin
+      password: secret
+      system: ibox001
