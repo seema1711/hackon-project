@@ -1,0 +1,78 @@
+- hosts: all
+  become_user: root
+
+  vars:
+    nfs_mountpoint: '/nfsmount'
+    nfsserver: '192.168.43.197'
+    nfsexport: '/nfsshare'
+ 
+  tasks:
+      yum:
+       name: "{{ item }}"
+       state: installed
+      with_items:
+       - nfs-utils
+      tags: nfs_client,nfs_server
+
+      template:
+       src: templates/exports.j2
+       dest: /etc/exports
+       owner: root
+       group: root
+       mode: 755
+      tags: nfs_server,copy_export
+
+      service:
+       name: nfs
+       state: restarted
+       enable: yes
+      tags: nfs_server
+
+    
+      file:
+       path: "{{ nfs_mountpoint }}"
+       state: directory
+       mode: 755
+       owner: root
+      tags: nfs_client
+
+      mount:
+       name: "{{ nfs_mountpoint }}"
+       src: 
+        - "{{ nfsserver }}"
+        - "{{ nfsexport }}"
+       fstype: nfs
+       opts: defaults,rw,bg
+       dump: 0
+       passno: 2
+       state: mounted
+      tags: nfs_client
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
